@@ -101,6 +101,11 @@ func DF(ctx context.Context, format string, i ...interface{}) {
 	l.Debugf(format, i...)
 }
 
+// W warn
+//
+//	func W(message ...interface{}) {
+//		logger.Warn(message...)
+//	}
 func W(ctx context.Context, message ...interface{}) {
 	if logger == nil {
 		InitLog()
@@ -110,6 +115,11 @@ func W(ctx context.Context, message ...interface{}) {
 	l.Warn(message...)
 }
 
+// Wf warn with format
+//
+//	func Wf(format string, i ...interface{}) {
+//		logger.Warnf(format, i...)
+//	}
 func Wf(ctx context.Context, format string, i ...interface{}) {
 	if logger == nil {
 		InitLog()
