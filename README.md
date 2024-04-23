@@ -7,7 +7,7 @@ Requirement:
 - go.opentelemetry.io/otel v1.25.0
 
 ```bash
-go get github.com/rudiarta/otools@v0.0.1
+go get github.com/rudiarta/otools@v0.0.2
 ```
 
 ## Init Metrics
