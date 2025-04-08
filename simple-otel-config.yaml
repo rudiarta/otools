@@ -1,0 +1,48 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4318
+
+processors: 
+  memory_limiter:
+    check_interval: 1s
+    limit_mib: 2000
+  batch:
+
+exporters:
+  debug:
+    verbosity: detailed
+  otlp: 
+    endpoint: "0.0.0.0:8200"
+    tls:
+      insecure: true
+  elasticsearch:
+    endpoint: http://0.0.0.0:9200
+    # logs_index: nemesis-log
+    mapping:
+    # flush failed (400) illegal_argument_exception using mode otel
+    # This may happen when you use OTel mapping mode (the default mapping mode from v0.122.0, or explicitly by configuring mapping::mode: otel) sending to Elasticsearch version < 8.12.
+      # mode: otel
+      mode: none 
+    tls:
+      insecure: true
+
+extensions:
+  basicauth:
+    client_auth:
+      username: 
+      password: 
+
+service:
+  # extensions: [basicauth]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [otlp]
+    metrics:
+      receivers: [otlp]
+      exporters: [otlp]
+    logs:
+      receivers: [otlp]
+      exporters: [elasticsearch]

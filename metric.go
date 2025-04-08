@@ -40,7 +40,7 @@ func InitMetrics(host, serviceName, environment string) error { // Not ready to 
 	switch {
 	case strings.Contains(environment, "local"):
 		var err error
-		f, err = os.OpenFile("metric.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+		f, err = os.OpenFile("metric.json", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 		if err != nil {
 			olog.E(context.Background(), err)
 		}

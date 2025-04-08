@@ -1,27 +1,26 @@
 package olog
 
 import (
-	"errors"
 	"log"
 	"runtime"
-	"syscall"
 
+	"go.opentelemetry.io/contrib/bridges/otelzap"
+	"go.opentelemetry.io/otel/log/global"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
 
-var logger *zap.SugaredLogger
+var Logger *zap.SugaredLogger
 
-// InitZap logger
-// Deprecated: this function is no longer needed
-func InitLog() {
+// initLog logger internal library
+func initLog() {
 	var (
 		logg *zap.Logger
 		err  error
 	)
 
 	// if the log is already initialized, do nothing
-	if logger != nil {
+	if Logger != nil {
 		return
 	}
 
@@ -52,16 +51,15 @@ func InitLog() {
 	cfg.Development = true
 
 	logg, err = cfg.Build()
+	core := zapcore.NewTee(
+		logg.Core(),
+		otelzap.NewCore("OTOOLS-LOG", otelzap.WithLoggerProvider(global.GetLoggerProvider())),
+	)
+	logg = zap.New(core)
 	if err != nil {
 		log.Println(err)
 	}
-	defer func() {
-		err := logg.Sync()
-		if err != nil && !errors.Is(err, syscall.ENOTTY) {
-			log.Println(err)
-		}
-	}()
 
 	// define logger
-	logger = logg.Sugar()
+	Logger = logg.Sugar()
 }

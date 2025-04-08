@@ -23,11 +23,11 @@ func getTraceIDFromContext(ctx context.Context) string {
 //		logger.Error(message)
 //	}
 func E(ctx context.Context, message interface{}) {
-	if logger == nil {
-		InitLog()
+	if Logger == nil {
+		initLog()
 	}
 
-	l := logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)))
+	l := Logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)), zap.Any("context", ctx))
 	l.Error(message)
 }
 
@@ -37,11 +37,11 @@ func E(ctx context.Context, message interface{}) {
 //		logger.Errorf(format, i...)
 //	}
 func Ef(ctx context.Context, format string, i ...interface{}) {
-	if logger == nil {
-		InitLog()
+	if Logger == nil {
+		initLog()
 	}
 
-	l := logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)))
+	l := Logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)), zap.Any("context", ctx))
 	l.Errorf(format, i...)
 }
 
@@ -51,11 +51,11 @@ func Ef(ctx context.Context, format string, i ...interface{}) {
 //		logger.Info(message...)
 //	}
 func I(ctx context.Context, message ...interface{}) {
-	if logger == nil {
-		InitLog()
+	if Logger == nil {
+		initLog()
 	}
 
-	l := logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)))
+	l := Logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)), zap.Any("context", ctx))
 	l.Info(message...)
 }
 
@@ -65,11 +65,11 @@ func I(ctx context.Context, message ...interface{}) {
 //		logger.Infof(format, i...)
 //	}
 func If(ctx context.Context, format string, i ...interface{}) {
-	if logger == nil {
-		InitLog()
+	if Logger == nil {
+		initLog()
 	}
 
-	l := logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)))
+	l := Logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)), zap.Any("context", ctx))
 	l.Infof(format, i...)
 }
 
@@ -79,11 +79,11 @@ func If(ctx context.Context, format string, i ...interface{}) {
 //		logger.Debug(message...)
 //	}
 func D(ctx context.Context, message ...interface{}) {
-	if logger == nil {
-		InitLog()
+	if Logger == nil {
+		initLog()
 	}
 
-	l := logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)))
+	l := Logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)), zap.Any("context", ctx))
 	l.Debug(message...)
 }
 
@@ -93,11 +93,11 @@ func D(ctx context.Context, message ...interface{}) {
 //		logger.Debugf(format, i...)
 //	}
 func DF(ctx context.Context, format string, i ...interface{}) {
-	if logger == nil {
-		InitLog()
+	if Logger == nil {
+		initLog()
 	}
 
-	l := logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)))
+	l := Logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)), zap.Any("context", ctx))
 	l.Debugf(format, i...)
 }
 
@@ -107,11 +107,11 @@ func DF(ctx context.Context, format string, i ...interface{}) {
 //		logger.Warn(message...)
 //	}
 func W(ctx context.Context, message ...interface{}) {
-	if logger == nil {
-		InitLog()
+	if Logger == nil {
+		initLog()
 	}
 
-	l := logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)))
+	l := Logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)), zap.Any("context", ctx))
 	l.Warn(message...)
 }
 
@@ -121,11 +121,11 @@ func W(ctx context.Context, message ...interface{}) {
 //		logger.Warnf(format, i...)
 //	}
 func Wf(ctx context.Context, format string, i ...interface{}) {
-	if logger == nil {
-		InitLog()
+	if Logger == nil {
+		initLog()
 	}
 
-	l := logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)))
+	l := Logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)), zap.Any("context", ctx))
 	l.Warnf(format, i...)
 }
 
@@ -133,10 +133,10 @@ func Wf(ctx context.Context, format string, i ...interface{}) {
 //		logger.Panic(i)
 //	}
 func Panic(ctx context.Context, i ...interface{}) {
-	if logger == nil {
-		InitLog()
+	if Logger == nil {
+		initLog()
 	}
 
-	l := logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)))
+	l := Logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)), zap.Any("context", ctx))
 	l.Panic(i)
 }
