@@ -24,18 +24,12 @@ exporters:
     # flush failed (400) illegal_argument_exception using mode otel
     # This may happen when you use OTel mapping mode (the default mapping mode from v0.122.0, or explicitly by configuring mapping::mode: otel) sending to Elasticsearch version < 8.12.
       # mode: otel
-      mode: none 
+      # mode: none 
+      mode: ecs 
     tls:
       insecure: true
 
-extensions:
-  basicauth:
-    client_auth:
-      username: 
-      password: 
-
 service:
-  # extensions: [basicauth]
   pipelines:
     traces:
       receivers: [otlp]
