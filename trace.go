@@ -81,7 +81,7 @@ func getGrpcOtelTraceProvider(host, serviceName, environment string) (*tracesdk.
 	case strings.Contains(lpTraceEnvironment, "local"):
 		// Write telemetry data to a file.
 		var err error
-		f, err = os.OpenFile("traces.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+		f, err = os.OpenFile("traces.json", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 		if err != nil {
 			olog.E(ctx, err)
 		}
@@ -104,20 +104,6 @@ func getGrpcOtelTraceProvider(host, serviceName, environment string) (*tracesdk.
 	)
 
 	return tracerProvider, nil
-}
-
-// Deprecated: This function will be removed in a future release
-// SetError func
-// this function is still not implemented
-func SetErrorFromContext(ctx context.Context, err error) {
-	// span := trace.SpanFromContext(ctx)
-	// if span == nil || err == nil {
-	// 	return
-	// }
-
-	// span.SetAttributes(semconv.ExceptionTypeKey.String("ERROR"))
-	// span.SetAttributes(semconv.ExceptionMessageKey.String(err.Error()))
-	// span.SetAttributes(semconv.ExceptionStacktraceKey.String(string(debug.Stack())))
 }
 
 // GetTraceID func
@@ -150,7 +136,6 @@ type tracerImpl struct {
 
 type Tracer interface {
 	Context() context.Context
-	Tags() map[string]interface{}
 	SetError(err error)
 	Finish(additionalTags ...map[string]interface{})
 }
@@ -223,47 +208,6 @@ func StartTracerWithContextBackground(parentCtx context.Context, operationName s
 	return StartTrace(requestContext, operationName)
 }
 
-// Deprecated: This function will be removed in a future release
-// Start tracer that will use new ctx from context.Background & using specific trace & span ID
-func StartTracerWithTraceIDAndSpanIDContextBackground(ctx context.Context, operationName, TraceID, SpanID string) Tracer {
-	var span trace.Span
-	spanContext, err := constructNewSpanContextWithString(ctx, otrace.NewRequest{
-		TraceID: TraceID,
-		SpanID:  SpanID,
-	})
-	if err != nil {
-		olog.If(ctx, "ERROR: %s ", err.Error())
-	}
-	if ok := spanContext.IsValid(); !ok {
-		olog.If(ctx, "IS VALID? : %v ", ok)
-	}
-
-	requestContext := trace.ContextWithSpanContext(ctx, spanContext)
-
-	if lpTracehost == "" {
-		olog.I(ctx, "InitTracer first")
-	}
-
-	if tp == nil {
-		olog.I(ctx, "InitTracer first")
-	}
-
-	var tr trace.Tracer
-	switch {
-	case strings.Contains(lpTraceEnvironment, "test") || !isInitTrace:
-		tr = noop.NewTracerProvider().Tracer(toolName)
-	default:
-		tr = tp.Tracer(toolName)
-	}
-
-	ctx, span = tr.Start(requestContext, operationName, trace.WithSpanKind(trace.SpanKindServer))
-
-	return &tracerImpl{
-		ctx:  ctx,
-		span: span,
-	}
-}
-
 // Start tracer that will use specific trace & span ID
 func StartTracerWithTraceIDAndSpanID(ctx context.Context, operationName, TraceID, SpanID string) Tracer {
 	var span trace.Span
@@ -307,12 +251,6 @@ func StartTracerWithTraceIDAndSpanID(ctx context.Context, operationName, TraceID
 // Context get active context
 func (t *tracerImpl) Context() context.Context {
 	return t.ctx
-}
-
-// Tags create tags in tracer span
-func (t *tracerImpl) Tags() map[string]interface{} {
-	t.tags = make(map[string]interface{})
-	return t.tags
 }
 
 // SetError set error in span

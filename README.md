@@ -3,11 +3,11 @@
 ## Installing SDK
 
 Requirement: 
-- GO >= 1.20
-- go.opentelemetry.io/otel v1.25.0
+- GO >= 1.24
+- go.opentelemetry.io/otel v1.35.0
 
 ```bash
-go get github.com/rudiarta/otools@v0.0.2
+go get github.com/rudiarta/otools@v0.0.3
 ```
 
 ## Init Metrics
@@ -81,17 +81,27 @@ go get github.com/rudiarta/otools@v0.0.2
 ```
 
 ## Init Log
+* New Update: log integration with log provider otelzap
 
 ```go
     import "github.com/rudiarta/otools/olog"
     
-    // Init on first run app
-    olog.InitLog()
+    // Add this code to your project first running
+    // host for otel-collecter GRPC Ex: "localhost:30080"
+    // serviceName Ex: "name_service"
+    // environment Ex: "DEV"
+    // Or
+    // Environment Ex: set with prefix "local" 
+    // if your local there is no otel-collector daemon running
+    otools.InitLog(host, serviceName, environment)
 
     // Use context from ctx = tt.Context()
     // Generate by Tracer
     olog.E(ctx, any)
     olog.I(ctx, any)
+
+     // Don't forget to execute this in graceful shutdown mode
+    otools.ShutDownLogProvider()
 ```
 
 ## Http Request
