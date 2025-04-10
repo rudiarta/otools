@@ -59,21 +59,25 @@ go get github.com/rudiarta/otools@v0.0.3
     // put this code in top of your function
     tt := otools.StartTrace(ctx, "operationName")
     ctx = tt.Context()
-    defer tt.Finish(map[string]interface{}{
+    defer func(){
+        tt.Finish(map[string]interface{}{
         "req": "...",
         "resp": "...",
         "...": any,
         })
+    }()
 
     // passing context without get response `context canceled`
     go func() {
         ti := otools.StartTracerWithContextBackground(ctx, "operationName inner goroutine")
         inCtx := ti.Context() // inCtx not inherit deadline from ctx anymore
-        defer ti.Finish(map[string]interface{}{
-        "req": "...",
-        "resp": "...",
-        "...": any,
-        })
+        defer func(){
+            tt.Finish(map[string]interface{}{
+            "req": "...",
+            "resp": "...",
+            "...": any,
+            })
+        }()
     }()
 
     // Don't forget to execute this in graceful shutdown mode
