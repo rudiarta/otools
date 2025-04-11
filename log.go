@@ -73,13 +73,13 @@ func newLoggerProvider(ctx context.Context, host, environment string, res *resou
 
 func ShutDownLogProvider() error {
 	if loggerProvider != nil {
+		olog.D(context.Background(), "Shutting down & flushing log provider successfully")
 		if err := loggerProvider.ForceFlush(context.Background()); err != nil {
 			olog.DF(context.Background(), "Error flushing log provider: %v", err)
 		}
 		if err := loggerProvider.Shutdown(context.Background()); err != nil {
 			olog.DF(context.Background(), "Error shutting down log provider: %v", err)
 		}
-		olog.D(context.Background(), "Shutting down & flushing log provider successfully")
 	}
 
 	err := olog.Logger.Desugar().Sync()
