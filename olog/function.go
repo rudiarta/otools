@@ -27,7 +27,7 @@ func E(ctx context.Context, message interface{}) {
 		initLog()
 	}
 
-	l := Logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)), zap.Any("context", ctx))
+	l := Logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)), zap.Any("context", ctx), zap.Stack("stack-trace"))
 	l.Error(message)
 }
 
@@ -41,7 +41,7 @@ func Ef(ctx context.Context, format string, i ...interface{}) {
 		initLog()
 	}
 
-	l := Logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)), zap.Any("context", ctx))
+	l := Logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)), zap.Any("context", ctx), zap.Stack("stack-trace"))
 	l.Errorf(format, i...)
 }
 
@@ -55,7 +55,7 @@ func I(ctx context.Context, message ...interface{}) {
 		initLog()
 	}
 
-	l := Logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)), zap.Any("context", ctx))
+	l := Logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)), zap.Any("context", ctx), zap.Stack("stack-trace"))
 	l.Info(message...)
 }
 
@@ -69,7 +69,7 @@ func If(ctx context.Context, format string, i ...interface{}) {
 		initLog()
 	}
 
-	l := Logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)), zap.Any("context", ctx))
+	l := Logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)), zap.Any("context", ctx), zap.Stack("stack-trace"))
 	l.Infof(format, i...)
 }
 
@@ -83,7 +83,7 @@ func D(ctx context.Context, message ...interface{}) {
 		initLog()
 	}
 
-	l := Logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)), zap.Any("context", ctx))
+	l := Logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)), zap.Any("context", ctx), zap.Stack("stack-trace"))
 	l.Debug(message...)
 }
 
@@ -97,7 +97,7 @@ func DF(ctx context.Context, format string, i ...interface{}) {
 		initLog()
 	}
 
-	l := Logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)), zap.Any("context", ctx))
+	l := Logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)), zap.Any("context", ctx), zap.Stack("stack-trace"))
 	l.Debugf(format, i...)
 }
 
@@ -111,7 +111,7 @@ func W(ctx context.Context, message ...interface{}) {
 		initLog()
 	}
 
-	l := Logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)), zap.Any("context", ctx))
+	l := Logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)), zap.Any("context", ctx), zap.Stack("stack-trace"))
 	l.Warn(message...)
 }
 
@@ -125,7 +125,7 @@ func Wf(ctx context.Context, format string, i ...interface{}) {
 		initLog()
 	}
 
-	l := Logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)), zap.Any("context", ctx))
+	l := Logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)), zap.Any("context", ctx), zap.Stack("stack-trace"))
 	l.Warnf(format, i...)
 }
 
@@ -137,6 +137,6 @@ func Panic(ctx context.Context, i ...interface{}) {
 		initLog()
 	}
 
-	l := Logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)), zap.Any("context", ctx))
+	l := Logger.With(zap.String("trace-id", getTraceIDFromContext(ctx)), zap.Any("context", ctx), zap.Stack("stack-trace"))
 	l.Panic(i)
 }
