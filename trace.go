@@ -178,7 +178,7 @@ func StartTrace(ctx context.Context, operationName string) Tracer {
 	var tr trace.Tracer
 	switch {
 	case strings.Contains(lpTraceEnvironment, "test") || !isInitTrace:
-		tr = trace.NewNoopTracerProvider().Tracer(toolName)
+		tr = noop.NewTracerProvider().Tracer(toolName)
 	default:
 		tr = tp.Tracer(toolName)
 	}
