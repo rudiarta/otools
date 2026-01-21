@@ -265,7 +265,7 @@ func (t *tracerImpl) Finish(tags ...map[string]interface{}) {
 		t.span.End(trace.WithStackTrace(true))
 	}()
 
-	// Debug trace set to default attibute
+	// Debug trace set to default attribute
 	t.span.SetAttributes(
 		semconv.ExceptionStacktraceKey.String(string(debug.Stack())),
 	)

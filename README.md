@@ -72,7 +72,7 @@ go get github.com/rudiarta/otools@v0.0.4
         ti := otools.StartTracerWithContextBackground(ctx, "operationName inner goroutine")
         inCtx := ti.Context() // inCtx not inherit deadline from ctx anymore
         defer func(){
-            tt.Finish(map[string]interface{}{
+            ti.Finish(map[string]interface{}{
             "req": "...",
             "resp": "...",
             "...": any,
