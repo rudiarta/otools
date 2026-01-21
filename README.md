@@ -4,10 +4,10 @@
 
 Requirement: 
 - GO >= 1.24
-- go.opentelemetry.io/otel v1.35.0
+- go.opentelemetry.io/otel v1.39.0
 
 ```bash
-go get github.com/rudiarta/otools@v0.0.3
+go get github.com/rudiarta/otools@v0.0.4
 ```
 
 ## Init Metrics
@@ -85,8 +85,6 @@ go get github.com/rudiarta/otools@v0.0.3
 ```
 
 ## Init Log
-* New Update: log integration with log provider otelzap
-
 ```go
     import "github.com/rudiarta/otools/olog"
     

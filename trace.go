@@ -178,7 +178,8 @@ func StartTrace(ctx context.Context, operationName string) Tracer {
 	var tr trace.Tracer
 	switch {
 	case strings.Contains(lpTraceEnvironment, "test") || !isInitTrace:
-		tr = trace.NewNoopTracerProvider().Tracer(toolName)
+		tps := noop.NewTracerProvider()
+		tr = tps.Tracer(toolName)
 	default:
 		tr = tp.Tracer(toolName)
 	}
@@ -266,8 +267,6 @@ func (t *tracerImpl) Finish(tags ...map[string]interface{}) {
 
 	// Debug trace set to default attibute
 	t.span.SetAttributes(
-		semconv.ExceptionTypeKey.String("DEBUG"),
-		semconv.ExceptionMessageKey.String("Stack Trace Information"),
 		semconv.ExceptionStacktraceKey.String(string(debug.Stack())),
 	)
 

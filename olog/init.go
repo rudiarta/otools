@@ -26,7 +26,7 @@ func initLog() {
 
 	cfg := zap.Config{
 		Encoding:         "json",
-		OutputPaths:      []string{"stderr"},
+		OutputPaths:      []string{"stdout"},
 		ErrorOutputPaths: []string{"stderr"},
 		EncoderConfig: zapcore.EncoderConfig{
 			MessageKey: "message",
@@ -48,14 +48,12 @@ func initLog() {
 	}
 
 	cfg.Level = zap.NewAtomicLevelAt(zapcore.DebugLevel)
-	cfg.Development = true
-
 	logg, err = cfg.Build()
 	core := zapcore.NewTee(
 		logg.Core(),
 		otelzap.NewCore("OTOOLS-LOG", otelzap.WithLoggerProvider(global.GetLoggerProvider())),
 	)
-	logg = zap.New(core)
+	logg = zap.New(core, zap.AddStacktrace(zapcore.DebugLevel), zap.AddCaller())
 	if err != nil {
 		log.Println(err)
 	}
